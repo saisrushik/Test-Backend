@@ -26,24 +26,20 @@ studentRoute.post("/login",async (req,res)=>{
 
 
 //register user -create operation
-studentRoute.post("/register",async(req,res)=>{
+studentRoute.post("/register",async (req,res)=>{
     try{
         const {name,email,RegsNo,pass}=req.body;
-
-        const student=studentSchema.findOne({RegsNo});
-        if(student!==null){
-            res.send("Student Already Exist");
-        }else{
-            studentSchema.create(req.body,(err,data)=>{
-                if(err)
-                    return err 
-                else 
-                    res.json(data)
-            })
-        }
+        console.log(name);
+        await studentSchema.create({name:name,email:email,RegsNo:RegsNo,pass:pass},(err,data)=>{
+            console.log(name);
+            if(err)
+                return err 
+            else 
+                res.json(data)
+        })
     }catch(err){
-        res.json(err);
-    }
+        console.log(err);
+    }  
 })
 
 
@@ -63,7 +59,7 @@ studentRoute.get("/student/:id",(req,res)=>{
 studentRoute.route("/update-student/:id")
 .get((req,res)=>{
     const query={RegsNo:req.params.id}
-    studentSchema.find(query,(err,data)=>{
+    studentSchema.findById(query,(err,data)=>{
         if(err)
             return err
         else    
