@@ -5,13 +5,18 @@ const mongoose=require("mongoose");
 
 
 //login user - Authentication 
-studentRoute.post("/login",async (req,res)=>{
+//login user - Authentication 
+studentRoute.post("/login",async(req,res)=>{
     try{
         const {email,pass}=req.body;
-        const student=studentSchema.findOne({email});
-
-        if(student!==null){
-            if(student.pass!==pass){
+        const student=await studentSchema.findOne({
+              email: email
+            });
+        console.log(pass);
+        if(student.length !==null){
+            console.log(typeof(student.pass));
+            console.log(typeof(pass));
+            if(student.pass!= pass){
                 res.send("Incorrect Password");
             }else{
                 res.send("Student Logged In");
